@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BCPC main page</title>
+</head>
+<body>
+
+  <div style="color: cadetblue">BCPC main page</div>
+
+  <hr/>
+
+  <form th:action="@{/bcpc/student}">
+    <input type="submit" value="Students"/>
+  </form>
+
+  <br/>
+
+  <form th:action="@{/bcpc/teacher}">
+    <input type="submit" value="Teachers"/>
+  </form>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit teacher</title>
+</head>
+<body>
+    <form th:method="PATCH" th:action="@{/bcpc/teacher/{id}(id=${teacher.getId()})}" th:object="${teacher}">
+        <label for="name">Name: </label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</div>
+
+        <br/>
+
+        <label for="age">Age: </label>
+        <input type="number" th:field="*{age}" id="age"/>
+        <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</div>
+
+        <br/>
+        <br/>
+
+        <label th:each="entry : ${studentsMap}">
+            <input type="checkbox"
+                   th:field="*{students}"
+                   th:value="${entry.key.id}"
+                   th:checked="${entry.value}">
+            <a th:href="@{/bcpc/student/{id}(id=${entry.key.id})}"
+               th:text="${entry.key.name}">stud</a>
+            <br/>
+        </label>
+
+        <br/>
+        <input type="submit" value="Edit!">
+    </form>
+
+    <form th:action="@{/bcpc/teacher/{id}(id=${teacher.id})}">
+        <input type="submit" value="Go back">
+    </form>
+
+</body>
+</html>

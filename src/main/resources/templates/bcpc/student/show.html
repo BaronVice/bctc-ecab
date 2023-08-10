@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student</title>
+</head>
+<body>
+    <p th:text="${student.getName()}">value</p>
+    <p th:text="${student.getAge()}">value</p>
+
+    <div style="color: cadetblue">Teachers:</div>
+    <div th:each="teacher : ${student.getTeachers()}">
+        <a th:href="@{/bcpc/teacher/{id}(id=${teacher.getId()})}"
+           th:text="${teacher.getName()}">teacher</a>
+    </div>
+    <div style="color: cadetblue" th:if="${student.getTeachers().size()==0}">No teachers found</div>
+
+    <hr/>
+
+    <form th:action="@{/bcpc/student/{id}/edit(id=${student.getId()})}">
+        <input type="submit" value="Edit">
+    </form>
+
+    <br/>
+
+    <form th:method="DELETE" th:action="@{/bcpc/student/{id}(id=${student.getId()})}">
+        <input type="submit" value="Lock in basement?">
+    </form>
+
+    <br/>
+
+    <form th:action="@{/bcpc/student}">
+        <input type="submit" value="Go back">
+    </form>
+</body>
+</html>

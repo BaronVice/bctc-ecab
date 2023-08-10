@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+</head>
+<body>
+    <div th:each="student : ${students}">
+        <a th:href="@{/bcpc/student/{id}(id=${student.getId()})}"
+           th:text="${student.getName()}">stud</a>
+    </div>
+
+    <div style="color: darkcyan" th:if="${students.size() == 0}">No students found</div>
+
+    <hr/>
+
+    <form th:action="@{/bcpc/student/new}">
+        <input type="submit" value="Add student"/>
+    </form>
+    <br/>
+    <form th:action="@{/bcpc}">
+        <input type="submit" value="Main page"/>
+    </form>
+</body>
+</html>

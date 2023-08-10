@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create teacher</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/bcpc/teacher}" th:object="${teacher}">
+        <label for="name">Name: </label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name error</div>
+
+        <br/>
+
+        <label for="age">Age: </label>
+        <input type="number" th:field="*{age}" id="age"/>
+        <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</div>
+
+        <br/>
+
+        <input type="submit" value="Add!">
+    </form>
+
+    <form th:action="@{/bcpc/teacher}">
+        <input type="submit" value="Go back">
+    </form>
+</body>
+</html>
