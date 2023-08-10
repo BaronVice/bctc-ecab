@@ -6,7 +6,7 @@
 </head>
 <body>
     <div th:each="teacher : ${teachers}">
-        <a th:href="@{/bcpc/teacher/{id}(id=${teacher.getId()})}"
+        <a th:href="@{/bctc/teacher/{id}(id=${teacher.getId()})}"
            th:text="${teacher.getName()}">stud</a>
     </div>
 
@@ -14,11 +14,11 @@
 
     <hr/>
 
-    <form th:action="@{/bcpc/teacher/new}">
+    <form th:action="@{/bctc/teacher/new}">
         <input type="submit" value="Add teacher"/>
     </form>
     <br/>
-    <form th:action="@{/bcpc}">
+    <form th:action="@{/bctc}">
         <input type="submit" value="Main page"/>
     </form>
 </body>

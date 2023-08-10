@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/bcpc/student")
+@RequestMapping("/bctc/student")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StudentController {
     private final StudentService studentService;
@@ -21,36 +21,36 @@ public class StudentController {
     @GetMapping()
     public String index(Model model){
         model.addAttribute("students", studentService.findAll().stream().map(StudentDto::new).toList());
-        return "bcpc/student/index";
+        return "bctc/student/index";
     }
 
     @GetMapping("/{id}")
     public String show(Model model,
                        @PathVariable("id") int id){
         model.addAttribute("student", new StudentDto(studentService.findOneEager(id)));
-        return "bcpc/student/show";
+        return "bctc/student/show";
     }
 
     @GetMapping("/new")
     public String sendCreationPage(@ModelAttribute("student") StudentDto student){
-        return "bcpc/student/new";
+        return "bctc/student/new";
     }
 
     @GetMapping("/{id}/edit")
     public String sendUpdatePage(Model model,
                                  @PathVariable("id") int id){
         model.addAttribute("student", new StudentDto(studentService.findOne(id)));
-        return "bcpc/student/edit";
+        return "bctc/student/edit";
     }
 
     @PostMapping()
     public String save(@ModelAttribute("student") @Valid StudentDto student,
                        BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return "bcpc/student/new";
+            return "bctc/student/new";
 
         studentService.save(new Student(student));
-        return "redirect:/bcpc/student";
+        return "redirect:/bctc/student";
     }
 
     @PatchMapping("/{id}")
@@ -58,15 +58,15 @@ public class StudentController {
                          @ModelAttribute("student") @Valid StudentDto student,
                          BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return "bcpc/student/edit";
+            return "bctc/student/edit";
 
         studentService.update(id, new Student(student));
-        return String.format("redirect:/bcpc/student/%s", id);
+        return String.format("redirect:/bctc/student/%s", id);
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
         studentService.delete(id);
-        return "redirect:/bcpc/student";
+        return "redirect:/bctc/student";
     }
 }

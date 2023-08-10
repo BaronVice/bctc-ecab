@@ -14,12 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 @Controller
-@RequestMapping("/bcpc/teacher")
+@RequestMapping("/bctc/teacher")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class TeacherController {
     private final TeacherService teacherService;
@@ -28,19 +29,21 @@ public class TeacherController {
     @GetMapping()
     public String index(Model model){
         model.addAttribute("teachers", teacherService.findAll().stream().map(TeacherDto::new).toList());
-        return "bcpc/teacher/index";
+        return "bctc/teacher/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id,
                        Model model){
         model.addAttribute("teacher", new TeacherDto(teacherService.findOneEager(id)));
-        return "bcpc/teacher/show";
+        return "bctc/teacher/show";
     }
 
     @GetMapping("/new")
-    public String sendCreationPage(@ModelAttribute("teacher") TeacherDto teacher){
-        return "bcpc/teacher/new";
+    public String sendCreationPage(@ModelAttribute("teacher") TeacherDto teacher,
+                                   Model model){
+        model.addAttribute("studentsMap", collectStudentsToHandle(Collections.emptyList()));
+        return "bctc/teacher/new";
     }
 
     @GetMapping("/{id}/edit")
@@ -52,7 +55,7 @@ public class TeacherController {
         model.addAttribute("teacher", teacher);
         model.addAttribute("studentsMap", studentsMap);
 
-        return "bcpc/teacher/edit";
+        return "bctc/teacher/edit";
     }
 
     // TODO: collect by criteria maybe (teachers count < 2)
@@ -68,32 +71,34 @@ public class TeacherController {
 
     @PostMapping()
     public String save(@ModelAttribute("teacher") @Valid TeacherDto teacher,
-                       BindingResult bindingResult){
-        if (bindingResult.hasErrors())
-            return "bcpc/teacher/new";
+                       BindingResult bindingResult,
+                       Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("studentsMap", collectStudentsToHandle(Collections.emptyList()));
+            return "bctc/teacher/new";
+        }
 
         teacherService.save(new Teacher(teacher));
-        return "redirect:/bcpc/teacher";
+        return "redirect:/bctc/teacher";
     }
 
     @PatchMapping("/{id}")
     public String update(@PathVariable("id") int id,
-                         @ModelAttribute("teacher") TeacherDto teacher,
+                         @ModelAttribute("teacher") @Valid TeacherDto teacher,
                          BindingResult bindingResult,
                          Model model){
-        System.out.println(teacher.getStudents().size());
         if (bindingResult.hasErrors()) {
             model.addAttribute("studentsMap", collectStudentsToHandle(teacher.getStudents()));
-            return "bcpc/teacher/edit";
+            return "bctc/teacher/edit";
         }
 
         teacherService.update(id, new Teacher(teacher));
-        return String.format("redirect:/bcpc/teacher/%d", id);
+        return String.format("redirect:/bctc/teacher/%d", id);
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id){
         teacherService.delete(id);
-        return "redirect:/bcpc/teacher";
+        return "redirect:/bctc/teacher";
     }
 }

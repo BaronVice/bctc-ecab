@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Deprecated
 @Component
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StudentDAO {

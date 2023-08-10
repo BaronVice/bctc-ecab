@@ -10,26 +10,26 @@
 
     <div style="color: cadetblue">Teachers:</div>
     <div th:each="teacher : ${student.getTeachers()}">
-        <a th:href="@{/bcpc/teacher/{id}(id=${teacher.getId()})}"
+        <a th:href="@{/bctc/teacher/{id}(id=${teacher.getId()})}"
            th:text="${teacher.getName()}">teacher</a>
     </div>
     <div style="color: cadetblue" th:if="${student.getTeachers().size()==0}">No teachers found</div>
 
     <hr/>
 
-    <form th:action="@{/bcpc/student/{id}/edit(id=${student.getId()})}">
+    <form th:action="@{/bctc/student/{id}/edit(id=${student.getId()})}">
         <input type="submit" value="Edit">
     </form>
 
     <br/>
 
-    <form th:method="DELETE" th:action="@{/bcpc/student/{id}(id=${student.getId()})}">
+    <form th:method="DELETE" th:action="@{/bctc/student/{id}(id=${student.getId()})}">
         <input type="submit" value="Lock in basement?">
     </form>
 
     <br/>
 
-    <form th:action="@{/bcpc/student}">
+    <form th:action="@{/bctc/student}">
         <input type="submit" value="Go back">
     </form>
 </body>
