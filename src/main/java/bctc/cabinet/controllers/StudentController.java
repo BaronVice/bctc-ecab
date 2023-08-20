@@ -4,8 +4,9 @@ package bctc.cabinet.controllers;
 import bctc.cabinet.dto.StudentDto;
 import bctc.cabinet.models.Student;
 import bctc.cabinet.services.StudentService;
+import bctc.cabinet.util.ServiceError;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/bctc/student")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class StudentController {
     private final StudentService studentService;
 
@@ -39,7 +40,9 @@ public class StudentController {
     @GetMapping("/{id}/edit")
     public String sendUpdatePage(Model model,
                                  @PathVariable("id") int id){
-        model.addAttribute("student", new StudentDto(studentService.findOne(id)));
+        model.addAttribute(
+                "student",
+                new StudentDto(studentService.findOne(id, ServiceError.USER_NOT_FOUND)));
         return "bctc/student/edit";
     }
 

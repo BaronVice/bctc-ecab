@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 public class StudentService extends MemberService<StudentsRepository, Student> {
     public StudentService(StudentsRepository repository) {
         super(repository);
     }
 
+    @Transactional(readOnly = true)
     public Student findOneEager(int id){
         Optional<Student> student = repository.findById(id);
         if (student.isEmpty())

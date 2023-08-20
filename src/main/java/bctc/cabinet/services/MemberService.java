@@ -1,38 +1,41 @@
 package bctc.cabinet.services;
 
 import bctc.cabinet.models.Member;
+import bctc.cabinet.repositories.MemberRepository;
+import bctc.cabinet.util.ServiceError;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
-@Transactional(readOnly = true)
 @AllArgsConstructor(onConstructor = @__(@Autowired))
-public abstract class MemberService<Repository extends JpaRepository<T, Integer>, T extends Member> {
-    protected final Repository repository;
+public abstract class MemberService<R extends MemberRepository<M>, M extends Member> {
+    protected final R repository;
 
-    public List<T> findAll(){
+    @Transactional(readOnly = true)
+    public List<M> findAll(){
         return repository.findAll();
     }
 
-    public T findOne(int id){
-        Optional<T> foundMember = repository.findById(id);
-        // Handle optional maybe...
-        return foundMember.orElse(null);
+    @Transactional(readOnly = true)
+    public M findOne(int id, ServiceError error){
+        return repository.findById(id).orElseThrow(() -> new UsernameNotFoundException(error.toString()));
+    }
+
+    @Transactional(readOnly = true)
+    public M findByEmail(String email, ServiceError error){
+        return repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(error.toString()));
     }
 
     @Transactional
-    public void save(T member){
+    public void save(M member){
         repository.save(member);
     }
 
-    // TODO: this one probably should be an abstract
-    //  and need to figure out how to add and delete students for teacher (so abstract, yeah)
     @Transactional
-    public void update(int id, T updatedMember){
+    public void update(int id, M updatedMember){
         updatedMember.setId(id);
         repository.save(updatedMember);
     }

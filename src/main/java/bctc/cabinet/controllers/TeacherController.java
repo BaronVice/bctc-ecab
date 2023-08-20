@@ -7,7 +7,7 @@ import bctc.cabinet.models.Teacher;
 import bctc.cabinet.services.StudentService;
 import bctc.cabinet.services.TeacherService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ import java.util.TreeMap;
 
 @Controller
 @RequestMapping("/bctc/teacher")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TeacherController {
     private final TeacherService teacherService;
     private final StudentService studentService;
